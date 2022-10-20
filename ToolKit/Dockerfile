@@ -8,13 +8,9 @@ RUN apt-get install bash -y
 RUN apt-get install git -y 
 RUN apt-get install vim -y 
 RUN apt-get install wget
-
-#Installing gdb dependcies 
-#RUN apt-get install --no-cache make
-#RUN apt-get install --no-cache linux-headers
-#RUN apt-get install --no-cache texinfo
-#RUN apt-get install --no-cache gcc
-#RUN apt-get install --no-cache g++ 
+RUN apt install gobuster -y
+RUN apt install -y net-tools
+RUN apt install -y nmap
 
 #Installing gdw-pwndbg modified script 
 RUN git clone https://github.com/dd482IT/gdb-peda-pwndbg-gef-Docker.git
@@ -24,9 +20,7 @@ RUN cd gdb-peda-pwndbg-gef-Docker ;\
     sh update.sh
 
 
-#Setup bash shell 
 
 
-#RUN lchsh root /bin/bash
 
  
