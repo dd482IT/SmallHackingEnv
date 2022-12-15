@@ -1,16 +1,27 @@
 version: "3.9"
 services:
-  nginx:
+  nginx: 
     image: nginx:alpine
     ports:
       - "4444:444"
+    networks:
+      - internal
   apache:
     image: httpd:alpine
     ports:
       - "8080:80"
     volumes:
-    - ./apache/www:/var/www/html
+      - ./apache/www:/var/www/html
+    networks: 
+      - internal
   datase: 
     image: mysql:latest
+    networks:
+      - internal
   hacker: 
     build: Toolkit/
+      - external
+
+networks:
+  internal:
+  external: 
