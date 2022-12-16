@@ -1,27 +1,59 @@
 version: "3.9"
 services:
   nginx: 
+    tty: true
     image: nginx:alpine
     ports:
       - "4444:444"
     networks:
-      - internal
-  apache:
-    image: httpd:alpine
+      internal:
+          ipv4_address: 10.6.22.10
+  php-apache:
+    tty: true
+    image: php:7.2-apache
     ports:
       - "8080:80"
     volumes:
-      - ./apache/www:/var/www/html
+      - ./apache/www/Simple-PHP-Blog/:/var/www/html
     networks: 
-      - internal
-  datase: 
-    image: mysql:latest
+      internal:
+        ipv4_address: 10.6.22.11
+  netshoot:
+    image: nicolaka/netshoot
+    tty: true
     networks:
-      - internal
+      internal:
+        ipv4_address: 10.6.22.12
+  database: 
+    image: mysql:latest
+    environment:
+      MYSQL_HOST: "10.6.22.13"
+      MYSQL_PORT: 3306
+      MYSQL_USER: 'root'  
+      MYSQL_ROOT_PASSWORD: 'password123'
+      MYSQL_PASSWORD: 'password123'
+    networks:
+     internal:
+        ipv4_address: 10.6.22.13
+    volumes: 
+      - ./datadump.sql:/docker-entrypoint-initdb.d/datadump.sql
   hacker: 
     build: Toolkit/
+    tty: true
+    networks:
       - external
-
 networks:
   internal:
+    driver: bridge
+    ipam: 
+        driver: default
+        config:
+          - subnet: 10.6.22.0/24
+            gateway: 10.6.22.1     
   external: 
+    driver: bridge
+    ipam: 
+        driver: default
+        config:
+          - subnet: 12.6.22.0/24
+            gateway: 12.6.22.1     
