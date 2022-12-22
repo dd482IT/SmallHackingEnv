@@ -10,16 +10,14 @@ services:
           ipv4_address: 10.6.22.10
   apache:
     tty: true
-    image: php:8.0-apache
+    #image: php:8.0-apache
+    build: php-apache/
     ports:
       - "8080:80"
+    networks:
+      - internal
     volumes:
-      - ./apache/www/Simple-PHP-Blog/:/var/www/html
-    links:
-      - database
-    networks: 
-      internal:
-        ipv4_address: 10.6.22.11
+      - ./Simple-PHP-blog/:/var/www/html
   netshoot:
     image: nicolaka/netshoot
     tty: true
@@ -29,11 +27,13 @@ services:
   database: 
     image: mysql:latest
     environment:
-      MYSQL_HOST: 10.6.22.13
+      MYSQL_HOST: 127.0.0.1
       MYSQL_DATABASE: testing
       MYSQL_USER: 'admin' 
-      MYSQL_PASSWORD: '12345'
+      MYSQL_PASSWORD: '12345' 
       MYSQL_ROOT_PASSWORD: '12345'
+    ports:
+        - "3306"
     networks:
      internal:
         ipv4_address: 10.6.22.13
