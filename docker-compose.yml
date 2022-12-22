@@ -8,13 +8,15 @@ services:
     networks:
       internal:
           ipv4_address: 10.6.22.10
-  php-apache:
+  apache:
     tty: true
-    image: php:7.2-apache
+    image: php:8.0-apache
     ports:
       - "8080:80"
     volumes:
       - ./apache/www/Simple-PHP-Blog/:/var/www/html
+    links:
+      - database
     networks: 
       internal:
         ipv4_address: 10.6.22.11
@@ -27,11 +29,11 @@ services:
   database: 
     image: mysql:latest
     environment:
-      MYSQL_HOST: "10.6.22.13"
-      MYSQL_PORT: 3306
-      MYSQL_USER: 'root'  
-      MYSQL_ROOT_PASSWORD: 'password123'
-      MYSQL_PASSWORD: 'password123'
+      MYSQL_HOST: 10.6.22.13
+      MYSQL_DATABASE: testing
+      MYSQL_USER: 'admin' 
+      MYSQL_PASSWORD: '12345'
+      MYSQL_ROOT_PASSWORD: '12345'
     networks:
      internal:
         ipv4_address: 10.6.22.13
