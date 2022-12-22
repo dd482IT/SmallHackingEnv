@@ -9,8 +9,9 @@ RUN apt-get install git -y
 RUN apt-get install vim -y 
 RUN apt-get install wget
 RUN apt install gobuster -y
-RUN apt install -y net-tools
-RUN apt install -y nmap
+RUN apt install net-tools -y 
+RUN apt install nmap -y 
+RUN apt install iputils-ping -y 
 
 #Installing gdw-pwndbg modified script 
 RUN git clone https://github.com/dd482IT/gdb-peda-pwndbg-gef-Docker.git
